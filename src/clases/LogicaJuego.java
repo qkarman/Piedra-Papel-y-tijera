@@ -3,6 +3,22 @@ import javax.swing.JOptionPane;
 
 public class LogicaJuego extends JuegoPrincipal
 {
+    public static void main(String[] args)
+    {
+        LogicaJuego invocar = new LogicaJuego();
+
+        // Ejemplo: piedra vs tijera
+        logica jugador1 = logica.PIEDRA;
+        logica jugador2 = logica.PAPEL;
+
+        // Usar el método vs() para obtener el resultado
+        resultado res = jugador1.vs(jugador2);
+
+        JOptionPane.showMessageDialog(null, "Resultado: " + res);
+
+        invocar.combinacion();
+    }
+
     @Override
     public void combinacion()
     {
@@ -25,29 +41,27 @@ public class LogicaJuego extends JuegoPrincipal
         // Puedes utilizar las variables Player_Uno y Player_Dos
         // que han sido asignadas en el método PedirDatos()
 
-        if (player_Uno == piedra && player_Dos == tijera)
+    }
+
+    public enum logica
+    {
+        PIEDRA, PAPEL, TIJERA;
+
+        public resultado vs(logica otra)
         {
-            JOptionPane.showMessageDialog(null," Gana Jugador 1 con Piedra " + nombre1.getNombre() );
-            puntuaje.combinacion();
+            if(this == otra) return resultado.EMPATE;
+
+            return switch(this)
+            {
+                case PIEDRA -> (otra == TIJERA) ? resultado.GANA : resultado.PIERDE;
+                case PAPEL -> (otra == PIEDRA) ? resultado.GANA : resultado.PIERDE;
+                case TIJERA -> (otra == PAPEL) ? resultado.GANA : resultado.PIERDE;
+            };
         }
-        else if (player_Uno == tijera && player_Dos == papel)
-        {
-            JOptionPane.showMessageDialog(null," Gana Jugador 1 con Tijera " + nombre1.getNombre());
-            puntuaje.combinacion();
-        }
-        else if (player_Uno == papel && player_Dos == piedra)
-        {
-            JOptionPane.showMessageDialog(null," Gana Jugador 1 con Papel " + nombre1.getNombre());
-            puntuaje.combinacion();
-        }
-        else if (player_Uno == player_Dos)
-        {
-            JOptionPane.showMessageDialog(null," Empate " );
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null," Gana Jugador 2 " + nombre2.getNombre()  );
-            puntuaje.combinacion2();
-        }
+    }
+
+    public enum resultado
+    {
+        GANA, PIERDE, EMPATE;
     }
 }
