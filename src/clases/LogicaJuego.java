@@ -1,51 +1,42 @@
 package clases;
 import javax.swing.JOptionPane;
 
-public class LogicaJuego extends JuegoPrincipal
+public class LogicaJuego
 {
-    public static void main(String[] args)
+    private Puntuaje puntaje;
+
+    public LogicaJuego(Puntuaje puntaje)
     {
-        LogicaJuego invocar = new LogicaJuego();
-
-        // Ejemplo: piedra vs tijera
-        logica jugador1 = logica.PIEDRA;
-        logica jugador2 = logica.PAPEL;
-
-        // Usar el método vs() para obtener el resultado
-        resultado res = jugador1.vs(jugador2);
-
-        JOptionPane.showMessageDialog(null, "Resultado: " + res);
-
-        invocar.combinacion();
+        this.puntaje = puntaje;
     }
 
-    @Override
-    public void combinacion()
+    //*Creamos la clase donde el usuario va a gestionar el control del usuario
+    public void controlPlayer(String jugadorHumano)
     {
         //Creamos una instancias para invocar el nombre de los jugadores
         NombrePlayer nombre1 = new NombrePlayer();
 
         //Asignamos los nombres de los jugadores utilizando los setters
-        nombre1.setNombre(" Qkaman " );
+        nombre1.setNombre(" Qkarman " );
 
-        //Creamos una instancia para invocar el nombre de los jugadores
-        NombrePlayer nombre2 = new NombrePlayer();
+        //Convertimos la jugada a enum
+        logica jugador1 = logica.valueOf(jugadorHumano.toLowerCase());
+        logica jugador2 = logica.values()[(int)(Math.random() * 3)];
 
-        //Asignamos los nombres de los jugadores utilizando los setters
-        nombre2.setNombre(" Luis 02 " );
+        resultado res = jugador1.vs(jugador2);
 
-        //Invocamos el contador
-        Puntuaje puntuaje = new Puntuaje();
+        JOptionPane.showMessageDialog(null,nombre1.getNombre() + "tu elegiste: " + jugador1 +
+                "\n La maquina eligio: " + jugador2 +
+                "\n Resultado: " + res);
 
-        // Implementa la lógica para determinar el resultado del juego
-        // Puedes utilizar las variables Player_Uno y Player_Dos
-        // que han sido asignadas en el método PedirDatos()
-
+        puntaje.combinacion(res);
+        puntaje.mostrarPuntuajeMaximo();
     }
 
+    //*Creamos una clase de tipo Enum para gestionar la logica del juego
     public enum logica
     {
-        PIEDRA, PAPEL, TIJERA;
+        piedra, papel, tijera;
 
         public resultado vs(logica otra)
         {
@@ -53,15 +44,16 @@ public class LogicaJuego extends JuegoPrincipal
 
             return switch(this)
             {
-                case PIEDRA -> (otra == TIJERA) ? resultado.GANA : resultado.PIERDE;
-                case PAPEL -> (otra == PIEDRA) ? resultado.GANA : resultado.PIERDE;
-                case TIJERA -> (otra == PAPEL) ? resultado.GANA : resultado.PIERDE;
+                case piedra -> (otra == tijera) ? resultado.GANAS : resultado.PIERDES;
+                case papel -> (otra == piedra) ? resultado.GANAS : resultado.PIERDES;
+                case tijera-> (otra == papel) ? resultado.GANAS : resultado.PIERDES;
             };
         }
     }
 
+    //*Creamos otra clase Enum para los valores de ganar perder y empate
     public enum resultado
     {
-        GANA, PIERDE, EMPATE;
+        GANAS, PIERDES, EMPATE;
     }
 }

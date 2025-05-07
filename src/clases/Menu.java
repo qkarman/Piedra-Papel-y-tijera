@@ -7,6 +7,10 @@ public class Menu
 {
     //Declaramos el escanear y las variable las encapsulamos como protegidas
     protected int seleccionar = 0;
+
+    //Llamamos el metodo de puntaje
+    Puntuaje puntaje = new Puntuaje();
+
     Scanner in = new Scanner( System.in );
 
     //*Creamos el metodo main para poder probar nuestro proyecto
@@ -25,28 +29,25 @@ public class Menu
             //Creamos un try para detectar un problema y le damos diseño al programa
             try
             {
-                seleccionar = Integer.parseInt(JOptionPane.showInputDialog(null,
-                        "\n Menu "
-                                + "\n Deseas jugar piedra papel y tijera "
-                                + "\n 1.- Si "
-                                + "\n 2.- Puntuaje total "
-                                + "\n 3.- No "
-                                + "\n Selecciona una opcion "));
+                seleccionar = Integer.parseInt(JOptionPane.showInputDialog(null,"""
+                        Menu
+                        Deseas jugar piedra papel y tijera
+                        1.- Si
+                        2.- Puntaje total
+                        3.- No
+                        Selecciona una opcion"""));
 
                 //Creamos un switch para diferentes opciones del usuario
                 switch(seleccionar)
                 {
                     case 1:
                         //Llamamos a todos los metodos de las clases que vamos a ocupar
-                        JuegoPrincipal juego = new LogicaJuego();
+                        JuegoPrincipal juego = new JuegoPrincipal(puntaje);
                         juego.juego();
-                        juego.combinacion();
                         break;
 
                     case 2:
-                        //Llamamos el metodo de puntaje
-                        Puntuaje MostrarPuntuaje = new Puntuaje();
-                        MostrarPuntuaje.mostrarPuntuajeMaximo();
+                        puntaje.mostrarPuntuajeMaximo();
                         break;
 
                     case 3:
